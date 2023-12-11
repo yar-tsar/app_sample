@@ -5,11 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalculatorPage extends StatelessWidget {
-  final String title;
-
   const CalculatorPage({
     super.key,
-    required this.title,
   });
 
   @override
@@ -21,7 +18,7 @@ class CalculatorPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: theme.colorScheme.inversePrimary,
-            title: Text(title),
+            title: const Text('Tips Calculator'),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
@@ -59,7 +56,7 @@ class CalculatorPage extends StatelessWidget {
                   divisions: 30,
                   value: state.percent,
                   onChanged: (value) {
-                    cubit.setSliderPercetage(value);
+                    cubit.setSliderPercentage(value);
                   },
                   min: 0,
                   max: 30,

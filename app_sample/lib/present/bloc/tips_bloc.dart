@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TipsCubit extends Cubit<TipsState> {
   TipsCubit() : super(TipsState.initial());
 
-  void setSliderPercetage(double newPercent) {
+  void setSliderPercentage(double newPercent) {
     emit(
       state.copyWith(percent: newPercent),
     );

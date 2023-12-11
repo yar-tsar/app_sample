@@ -22,7 +22,7 @@ class TipsApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 12, 180, 76)),
           useMaterial3: true,
         ),
-        home: const CalculatorPage(title: 'Tips Calculator'),
+        home: const CalculatorPage(),
       ),
     );
   }
