@@ -1,27 +1,107 @@
+import 'package:app_sample/present/bloc/tips_bloc.dart';
+import 'package:app_sample/present/bloc/tips_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalculatorPage extends StatelessWidget {
   final String title;
-  const CalculatorPage({super.key, required this.title});
+
+  const CalculatorPage({
+    super.key,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    final cubit = context.read<TipsCubit>();
+    final theme = Theme.of(context);
+    return BlocBuilder<TipsCubit, TipsState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: theme.colorScheme.inversePrimary,
             title: Text(title),
           ),
-          body: Center(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '',
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  'Type your bill amount',
+                  style: theme.textTheme.headlineMedium,
                 ),
+                const SizedBox(height: 16),
+                TextField(
+                  onChanged: (value) {
+                    cubit.updateFieldValue(value);
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${state.percent}%',
+                      ),
+                    ],
+                  ),
+                ),
+                Slider(
+                  divisions: 30,
+                  value: state.percent,
+                  onChanged: (value) {
+                    cubit.setSliderPercetage(value);
+                  },
+                  min: 0,
+                  max: 30,
+                ),
+                const SizedBox(height: 8),
+                MaterialButton(
+                  onPressed: state.percent == 0 || state.fieldValue.isEmpty || state.fieldValue.startsWith('0')
+                      ? null
+                      : () {
+                          cubit.calculateAmount();
+                          cubit.setTips();
+                        },
+                  color: theme.colorScheme.primary,
+                  child: const Text('Calculate'),
+                ),
+                const SizedBox(height: 16),
+                state.amount == ''
+                    ? const SizedBox.shrink()
+                    : Text(
+                        'Your total is ${state.amount}',
+                        style: theme.textTheme.headlineMedium,
+                      ),
+                const SizedBox(height: 32),
+                state.lastBills.isEmpty
+                    ? const SizedBox.shrink()
+                    : Text(
+                        'Your Last Bills',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                const SizedBox(height: 16),
+                state.lastBills.isEmpty
+                    ? const SizedBox.shrink()
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: state.lastBills.length,
+                          itemBuilder: (context, index) {
+                            return Text(
+                              state.lastBills[index],
+                            );
+                          },
+                        ),
+                      ),
               ],
             ),
           ),

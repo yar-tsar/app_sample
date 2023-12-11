@@ -16,6 +16,7 @@ class TipsApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => TipsCubit(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Tips Calculator',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 12, 180, 76)),

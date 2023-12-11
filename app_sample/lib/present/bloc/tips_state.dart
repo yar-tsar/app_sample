@@ -1,12 +1,12 @@
 class TipsState {
   final String fieldValue;
   final String amount;
-  final List<String> tips;
-  final int percent;
+  final List<String> lastBills;
+  final double percent;
 
   TipsState({
     required this.fieldValue,
-    required this.tips,
+    required this.lastBills,
     required this.amount,
     required this.percent,
   });
@@ -15,21 +15,21 @@ class TipsState {
     return TipsState(
       fieldValue: '',
       amount: '',
-      tips: [],
+      lastBills: [],
       percent: 0,
     );
   }
 
   TipsState copyWith({
-    int? percent,
+    double? percent,
     String? fieldValue,
     String? amount,
-    List<String>? tips,
+    List<String>? lastBills,
   }) {
     return TipsState(
       fieldValue: fieldValue ?? this.fieldValue,
       amount: amount ?? this.amount,
-      tips: tips ?? this.tips,
+      lastBills: lastBills ?? this.lastBills,
       percent: percent ?? this.percent,
     );
   }
